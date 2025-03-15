@@ -1,0 +1,21 @@
+{
+    "name": "juda.monster/markdown-converter",
+    "description": "A simple Markdown to HTML converter",
+    "require": {
+        "php": ">=8.0",
+        "league/html-to-markdown": "^5.1",
+        "league/commonmark": "^2.6"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "JudaMonster\\MarkdownConverter\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "juda.monster"
+        }
+    ],
+    "minimum-stability": "stable"
+}
