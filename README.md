@@ -70,13 +70,13 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
     ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel2.PNG)
 7.  **建立网站，并配置网站的根目录。**
     您可以修改提供的 `nginx.conf` 文件并将其内容复制到您的网站配置中。 
-    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 3.PNG)
-    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 4.PNG)
+    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel3.PNG)
+    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel4.PNG)
 8.  **申请 SSL 安全证书。** 您可以在 aaPanel 中轻松申请和配置 Let's Encrypt 等免费 SSL 证书。
-  ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 5.PNG)
+  ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel5.PNG)
 9.  **将您的网站文件拷贝到网站的根目录。**
 
-![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 6.PNG)
+![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel6.PNG)
 10.  **在命令行中进入网站根目录，执行 `composer install` 进行依赖部署。**
 
 ## 补充内容：aaPanel 宝塔面板命令行
