@@ -12,7 +12,6 @@ VChat 是一个基于 PHP 和 HTML 的聊天应用程序，旨在提供用户友
 - **Markdown 转换**：支持将 Markdown 格式转换为 HTML，方便内容展示。[Markdown 转换](https://vchat.juda.monster/MarkdownHTMLconverter.php)
 - **天气仪表板**：集成天气信息，提供实时天气更新。[天气仪表板](https://vchat.juda.monster/WeatherDashboard.php)  
 - **微信功能**：包含与微信相关的功能模块，支持微信操作和草稿管理。
-[![微信聊天演示]([微信片链接](https://github.com/judawu/vchat/blob/main/png/Weixin_chat.png))]([微信功能](https://vchat.juda.monster/WeixinDemo.php))
 [![聊天演示](https://github.com/judawu/vchat/blob/main/png/Weixin_chat.png)](https://vchat.juda.monster/WeixinDemo.php)
 ## 文件结构
 
@@ -71,7 +70,7 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
 6.  **申请 SSL 安全证书。** 您可以在 aaPanel 中轻松申请和配置 Let's Encrypt 等免费 SSL 证书。
 7.  **将您的网站文件拷贝到网站的根目录。**
 8.  **在命令行中进入网站根目录，执行 `composer install` 进行依赖部署。**
-
+[![网站安装演示](https://github.com/judawu/vchat/blob/main/png/aaPanel1.PNG.png)]
 ## 补充内容：aaPanel 宝塔面板命令行
 
 ### Management/面板管理
