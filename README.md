@@ -4,7 +4,7 @@
 
 VChat 是一个基于 PHP 和 HTML 的聊天应用程序，旨在提供用户友好的聊天体验。
 [vhat网站](https://vchat.juda.monster/ "vchat网站")
- [![聊天演示](https://github.com/judawu/vchat/blob/main/png/website.png)](https://vchat.juda.monster)
+ [![聊天演示](https://github.com/judawu/vchat/blob/main/png/website.PNG)](https://vchat.juda.monster)
 ## 功能特点
 
 - **AI 聊天仪表板**：提供与 AI 的交互界面，增强用户体验。[AI 聊天仪表板](https://vchat.juda.monster/AIChatDashboard.php)
@@ -67,18 +67,18 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
     
 5.  **登录 aaPanel 后安装 Nginx, PHP 8.4 和 MySQL。**
     只需创建名为 `vchat` 的数据库，无需创建表。PHP 代码在运行时会自动创建表。
-    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel1.PNG.png)
+    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel1.PNG)
     
-   ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel2.PNG.png)
+   ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel2.PNG)
 7.  **建立网站，并配置网站的根目录。**
     您可以修改提供的 `nginx.conf` 文件并将其内容复制到您的网站配置中。 
-    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 3.PNG.png)
-    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 4.PNG.png)
+    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 3.PNG)
+    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 4.PNG)
 8.  **申请 SSL 安全证书。** 您可以在 aaPanel 中轻松申请和配置 Let's Encrypt 等免费 SSL 证书。
-  ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 5.PNG.png)
+  ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 5.PNG)
 9.  **将您的网站文件拷贝到网站的根目录。**
 
-![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 6.PNG.png)
+![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 6.PNG)
 10.  **在命令行中进入网站根目录，执行 `composer install` 进行依赖部署。**
 
 ## 补充内容：aaPanel 宝塔面板命令行
@@ -200,4 +200,4 @@ composer suggests <package>3
 
 
 # 关注我
-  ![微信公众号](https://github.com/judawu/vchat/blob/main/png/wwechat.png)
+  ![微信公众号](https://github.com/judawu/vchat/blob/main/png/wwechat.PNG)
