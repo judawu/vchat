@@ -1,9 +1,7 @@
 <?php
 session_start();  // 启动 session，存储用户登录状态
 $config = require 'config/config.php';
-// 默认用户名和密码（你可以根据需求从数据库或文件中获取）
-// define('USERNAME', 'admin');
-// define('PASSWORD', 'Edgar49872187');
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 获取用户输入的用户名和密码
