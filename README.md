@@ -177,12 +177,12 @@ DELETE FROM messages;
 * **重新加载** (请根据 PHP 版本进行修改，例如 service php-fpm-84 reload)： service php-fpm-{52|53|54|55|56|70|71|72|73|74|80|81} reload
 
 ### Composer 的命令
-composer install
-composer update
-composer require <package>
-composer dump-autoload
-composer diagnose
-composer self-update
+* composer install
+* composer update
+* composer require <package>
+* composer dump-autoload
+* composer diagnose
+* composer self-update
 composer search <term>
 composer depends <package>
 composer suggests <package>3
