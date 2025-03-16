@@ -8,7 +8,6 @@ VChat 是一个基于 PHP 和 HTML 的聊天应用程序，旨在提供用户友
 ## 功能特点
 
 - **AI 聊天仪表板**：提供与 AI 的交互界面，增强用户体验。[AI 聊天仪表板](https://vchat.juda.monster/AIChatDashboard.php)
-- 
 - **数据库操作**：包含数据库操作功能，支持用户登录和数据管理。
 - **Markdown 转换**：支持将 Markdown 格式转换为 HTML，方便内容展示。[Markdown 转换](https://vchat.juda.monster/MarkdownHTMLconverter.php)
 - **天气仪表板**：集成天气信息，提供实时天气更新。[天气仪表板](https://vchat.juda.monster/WeatherDashboard.php)  
@@ -67,9 +66,8 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
     
 5.  **登录 aaPanel 后安装 Nginx, PHP 8.4 和 MySQL。**
     只需创建名为 `vchat` 的数据库，无需创建表。PHP 代码在运行时会自动创建表。
-    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel1.PNG)
-    
-   ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel2.PNG)
+    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel1.PNG)  
+    ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel2.PNG)
 7.  **建立网站，并配置网站的根目录。**
     您可以修改提供的 `nginx.conf` 文件并将其内容复制到您的网站配置中。 
     ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel 3.PNG)
