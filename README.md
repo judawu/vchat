@@ -13,6 +13,7 @@ VChat 是一个基于 PHP 和 HTML 的聊天应用程序，旨在提供用户友
 - **天气仪表板**：集成天气信息，提供实时天气更新。[天气仪表板](https://vchat.juda.monster/WeatherDashboard.php)  
 - **微信功能**：包含与微信相关的功能模块，支持微信操作和草稿管理。
 [![微信聊天演示]([微信片链接](https://github.com/judawu/vchat/blob/main/png/Weixin_chat.png))]([微信功能](https://vchat.juda.monster/WeixinDemo.php))
+[![聊天演示](https://github.com/judawu/vchat/blob/main/png/Weixin_chat.png)](https://vchat.juda.monster/WeixinDemo.php)
 ## 文件结构
 
 - `AIChatDashboard.php`：AI 聊天仪表板功能。
