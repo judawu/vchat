@@ -37,10 +37,10 @@ VChat 是一个基于 PHP 和 HTML 的聊天应用程序，旨在提供用户友
 | **wechatMsgCrypt.php**  | 微信消息加密组件：<br>- 实现微信服务器消息加解密协议和处理微信消息的签名验证<br> |
 | **db.php**              | 数据库连接与基础操作：<br>- 配置MySQL数据库连接参数，建表和查询 |
 | **db_delete_data.php**  | 数据清理脚本：<br>- 执行MySQL数据库批量删除操作 |
-| **db_update_data.php**  | 数据更新脚本：<br>- 处理ySQL数据变更记录功能 |
-| **handle.php**          | 中央请求处理器：<br>- 处理微信公众号被动消息的响应 |
+| **db_update_data.php**  | 数据更新脚本：<br>- 处理MySQL数据变更记录功能 |
+| **handle.php**          | 中央请求处理器：<br>- 处理微信公众号被动消息的响应，主要处理XML格式消息 |
 | **logger.php**          | 日志记录系统：<br>- 实现日志记录 |
-| **message_handler.php** | 消息处理核心：<br>- 处理微信公众号被动消息的响应 |
+| **message_handler.php** | 消息处理核心：<br>- 处理微信公众号被动消息的响应,主要处理json消息 |
 | **receive.php**         | 消息接收网关：<br>-  处理微信公众号被动消息的接收功能 |
 | **reply.php**           | 消息回复生成器：<br>- 处理微信公众号被动消息的回复功能 |
 
