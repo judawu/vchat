@@ -10,8 +10,8 @@ return [
     'db' => [
         'host' => getenv('MYSQL_DB_HOST') ?: '127.0.0.1',
         'port' => getenv('MYSQL_DB_PORT') ?: '3306',
-        'dbname' => getenv('MYSQL_DB_USER') ?: 'wechat',
-        'username' => getenv('MYSQL_DB_NAME') ?: 'root',
+        'dbname' => getenv('MYSQL_DB_NAME') ?: 'vchat',
+        'username' => getenv('MYSQL_DB_USER') ?: 'root',
         'password' => getenv('MYSQL_DB_PASS') ?: '',
     ],
     
