@@ -5,8 +5,6 @@ services:
     build: .                 # 从 Dockerfile 构建
     image: vchat-php
     container_name: vchat-php
-    volumes:
-      - /usr/local/nsx/www/wwwroot/vchat/:/var/www/html
     entrypoint: ["/bin/sh", "-c", "mkdir -p /var/www/html/logs && chown -R www-data:www-data /var/www/html && php-fpm"]
     environment:
       MYSQL_DB_HOST: ${MYSQL_DB_HOST}
