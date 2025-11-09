@@ -29,6 +29,8 @@ services:
       - OPENAI_APIKEY=${OPENAI_APIKEY}
 
       # 添加其他 env（如 AI 密钥）
+    ports:
+      - "9000:9000"  # 暴露到主机 9000，避免冲突
     networks:
       - docker_nsx-network
     depends_on:
