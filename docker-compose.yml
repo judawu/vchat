@@ -30,9 +30,9 @@ services:
 
       # 添加其他 env（如 AI 密钥）
     ports:
-      - "9001:9000"  # 暴露到主机 9001，避免冲突
+      - "9001:9000"  # 暴露到主机 9001，避免冲突,nginx可以直接发送到主机 9001
     networks:
-      - docker_nsx-network
+      - vchat-network
     depends_on:
       db:
         condition: service_healthy
@@ -48,12 +48,12 @@ services:
     volumes:
       - /usr/local/nsx/www/wwwroot/mysql/:/var/lib/mysql  # 挂载主机数据库路径
     networks:
-      - docker_nsx-network
+      - vchat-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_DB_PASS"]
       timeout: 20s
       retries: 10
 
 networks:
-  docker_nsx-network:
-    external: true
+  vchat-network:
+    driver: bridge
