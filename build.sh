@@ -57,14 +57,30 @@ if [ ! -f ".env" ]; then
   echo "⚠️  未检测到 .env 文件！"
   echo "请上传或手动创建 $PROJECT_DIR/.env 文件，并填入如下示例变量："
   echo "
-MYSQL_DB_HOST=db
+USERNAME=admin
+PASSWORD=12345678
+MYSQL_DB_HOST=vchat-db
+MYSQL_DB_PORT=3306
 MYSQL_DB_USER=root
-MYSQL_DB_PASS=yourpassword
+MYSQL_DB_PASS=12345678
 MYSQL_DB_NAME=vchat
 WEIXIN_APPID=
 WEIXIN_SECRET=
+WEIXIN_ENCODING_AES_KEY=
+OPENWEATHER_APIKEY=
+SPARK_APIKEY=
+BAIDU_APIKEY=
+DOUBAO_APIKEY=
+KIMI_APIKEY=
+DEEPSEEK_APIKEY=
+HUNYUAN_APIKEY=
+TONGYI_APIKEY=
+YUEWEN_APIKEY=
+ZHIPU_APIKEY=
+HAILUO_APIKEY=
+GROK_APIKEY=
 OPENAI_APIKEY=
-# ... 其他 API KEY，请参考https://github.com/judawu/vhat/.env
+# ... 其他 API KEY，将上面的参数保存到.env并上传，或者sudo nano .env 后粘贴
 "
   if ! ask_yesno "是否已创建或上传 .env 文件？(创建完成后按 y 继续，n 退出)" "n"; then
     echo "退出脚本，请先创建 .env 文件后再运行。"
