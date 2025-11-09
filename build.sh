@@ -48,6 +48,33 @@ sudo mkdir -p "$MYSQL_DIR"
 sudo chown -R 1001:1001 "$MYSQL_DIR" || echo "chown 失败（请检查权限）"
 sudo chmod -R 755 "$MYSQL_DIR"
 
+
+###############################
+# 新增：检测 .env 文件是否存在
+###############################
+cd "$PROJECT_DIR"
+if [ ! -f ".env" ]; then
+  echo "⚠️  未检测到 .env 文件！"
+  echo "请上传或手动创建 $PROJECT_DIR/.env 文件，并填入如下示例变量："
+  echo "
+MYSQL_DB_HOST=db
+MYSQL_DB_USER=root
+MYSQL_DB_PASS=yourpassword
+MYSQL_DB_NAME=vchat
+WEIXIN_APPID=
+WEIXIN_SECRET=
+OPENAI_APIKEY=
+# ... 其他 API KEY，请参考https://github.com/judawu/vhat/.env
+"
+  if ! ask_yesno "是否已创建或上传 .env 文件？(创建完成后按 y 继续，n 退出)" "n"; then
+    echo "退出脚本，请先创建 .env 文件后再运行。"
+    exit 1
+  fi
+else
+  echo "✅ 检测到 .env 文件。"
+fi
+cd "$ROOT_DIR"
+
 ########################
 # 构建镜像选项
 ########################
