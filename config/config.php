@@ -32,7 +32,7 @@ return [
         ],
         'baidu' => [
             'url' => 'https://qianfan.baidubce.com/v2/chat/completions', 
-            'apikey' => '', // 替换为实际 API key
+            'apikey' => getenv('BAIDU_APIKEY') ?: '',
             'models' => [
                 'ernie-4.0-8k',
                 'ernie-4.0-turbo-8k',
@@ -60,7 +60,7 @@ return [
         ],
           'volcengine' => [
             'url' => 'https://ark.cn-beijing.volces.com/api/v3/chat/completions', // 替换为实际URL
-            'apikey' => '', // 替换为实际 API key
+            'apikey' => getenv('DOUBAO_APIKEY') ?: '',
             'models' => [
                 'ep-20250204113129-w6bjb',  // 替换为你的模型endpoint
                 'ep-20250302162922-rpbz4'   //https://console.volcengine.com/ark/region:ark+cn-beijing/endpoint?config=%7B%7D
@@ -72,8 +72,8 @@ return [
         ],
         
               'kimi' => [
-            'url' => 'https://api.moonshot.cn/v1/chat/completions', // 替换为实际百度 URL
-            'apikey' => '', // 替换为实际 API key
+            'url' => 'https://api.moonshot.cn/v1/chat/completions', 
+            'apikey' => getenv('KIMI_APIKEY') ?: '',
             'models' => [
                 'moonshot-v1-8k',
                 'moonshot-v1-32k' ,  
@@ -89,7 +89,7 @@ return [
         
                  'deepseek' => [
             'url' => 'https://api.deepseek.com/v1/chat/completions', // 替换为实际 URL
-            'apikey' => '', // 替换为实际API key
+            'apikey' => getenv('DEEPSEEK_APIKEY') ?: '',
             'models' => [
                 'deepseek-chat',
                 'deepseek-reasoner'  
@@ -103,7 +103,7 @@ return [
         
               'hunyuan' => [
             'url' => 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions', // 替换为实际URL
-            'apikey' => '', // 替换为实际百度 API key
+            'apikey' => getenv('HUNYUAN_APIKEY') ?: '',
             'models' => [
                 'hunyuan-lite',
                 'hunyuan-turbo',
@@ -143,7 +143,7 @@ return [
         
           'Qwen' => [
             'url' => 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', // 替换为实际 URL
-            'apikey' => '', // 替换为实际 API key
+            'apikey' =>  getenv('TONGYI_APIKEY') ?: '',
             'models' => [
                 'deepseek-r1',
                 'deepseek-v3',
@@ -340,7 +340,7 @@ return [
         
         'stepfun' => [
             'url' => 'https://api.stepfun.com/v1/chat/completions',
-            'apikey' => '', // 替换为实际 API key
+            'apikey' => getenv('YUEWEN_APIKEY') ?: '',
             'models' => [
                 'step-2-mini',
                 'step-2-16k',
@@ -368,7 +368,7 @@ return [
         
               'bigmodel' => [
             'url' => 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
-            'apikey' => '', // 替换为实际 API key
+            'apikey' => getenv('ZHIPU_APIKEY') ?: '',
             'models' => [
                 'glm-4-flash',
                 'GLM-4-Assistant',
@@ -406,7 +406,7 @@ return [
               'url2' => 'https://api.minimax.chat/v1/t2a_async_v2',  
                'url3' => 'https://api.minimax.chat/v1/voice_clone',  
                 'url4' => 'https://api.minimax.chat/v1/video_generation',  
-            'apikey' => '', // 替换为实际API key
+            'apikey' => getenv('HAILUO_APIKEY') ?: '',
             'models' => [
                 'minimax-text-01',
                 'abab6.5s-chat',
@@ -430,8 +430,8 @@ return [
         ],
         
           'grok' => [
-            'url' => 'https://api.x.ai/v1/chat/completions', // 替换为实际百度 URL
-            'apikey' => '', // 替换为实际API key
+            'url' => 'https://api.x.ai/v1/chat/completions',
+            'apikey' => getenv('GORK_APIKEY') ?: '',
             'models' => [
                 'grok-beta',
                 'grok-vision-beta',
@@ -445,7 +445,7 @@ return [
         
           'openai' => [
             'url' => 'https://api.openai.com/v1/chat/completions', // 替换为实际URL
-            'apikey' => '', // 替换为实际 API key
+            'apikey' => getenv('OPENAI_APIKEY') ?: '',
             'models' => [
                 'gpt-4o-mini',
                 'gpt-4.5-preview',
