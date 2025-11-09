@@ -127,6 +127,23 @@ else
   echo "未检测到冲突容器，可以直接启动。"
 fi
 
+########################
+# 新增：在 docker compose up 前询问是否执行 docker compose build
+# 这样如果你只修改了 docker-compose.yml（或某些服务需要重建），可以选择构建
+########################
+if ask_yesno "是否在启动前执行 'docker compose build'？通常修改了 docker-compose.yml 或 Dockerfile 时才需要。 (y=构建, n=跳过)" "n"; then
+  # 允许选择只构建单个服务以节省时间
+  if ask_yesno "是否只构建 ${IMAGE_NAME} 服务（仅构建 php）？(y=只构建 php, n=构建所有服务)" "y"; then
+    echo "执行: docker compose build ${IMAGE_NAME}"
+    docker compose build "$IMAGE_NAME"
+  else
+    echo "执行: docker compose build"
+    docker compose build
+  fi
+else
+  echo "跳过 docker compose build，直接继续启动。"
+fi
+
 echo "=== 使用 docker compose up -d 启动服务 ==="
 docker compose up -d
 
