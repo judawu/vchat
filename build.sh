@@ -41,6 +41,21 @@ else
   cd "$PROJECT_DIR"
   git pull --ff-only || echo "git pull 失败，保持本地版本。"
   cd "$ROOT_DIR"
+
+  ########################
+  # 清理
+  ########################
+  if ask_yesno "是否删掉所有重新安装。 (y=构建, n=跳过)" "n"; then
+   
+    cd "$PROJECT_DIR"
+    echo "执行: docker compose down"
+    docker compose down
+    cd "$ROOT_DIR"
+    echo "执行: rm -rf vchat"
+    rm -rf vchat
+    echo "执行: rm -rf mysql"
+    rm -rf mysql
+  fi
 fi
 
 echo "=== 创建 MySQL 数据目录并设置权限 ==="
