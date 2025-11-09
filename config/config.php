@@ -1,5 +1,7 @@
 <?php
 return [
+    'USERNAME' => getenv('USERNAME') ?: 'admin',
+    'PASSWORD' => getenv('PASSWORD') ?: '12345678',
     'TOKEN' => getenv('WEIXIN_TOKEN') ?: 'weixin',
     'APPID' => getenv('WEIXIN_APPID') ?: '',
     'APPSECRET' =>  getenv('WEIXIN_APPSECRET') ?: '',
