@@ -8,8 +8,8 @@ return [
     'db' => [
         'host' => getenv('MYSQL_DB_HOST') ?: 'localhost',
         'dbname' => getenv('MYSQL_DB_USER') ?: 'wechat',
-        'username' => getenv('MYSQL_DB_PASS') ?: 'root',
-        'password' => getenv('MYSQL_DB_NAME') ?: '',
+        'username' => getenv('MYSQL_DB_NAME') ?: 'root',
+        'password' => getenv('MYSQL_DB_PASS') ?: '',
     ],
     
      'openweathermap' => getenv('OPENWEATHER_APIKEY') ?: '',
