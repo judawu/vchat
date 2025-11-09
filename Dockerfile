@@ -17,7 +17,8 @@ WORKDIR /var/www/html
 
 # 复制项目文件
 COPY . /var/www/html
-
+# remove Git Dubious Ownership Warning
+RUN git config --global --add safe.directory /var/www/html
 # 安装 Composer 依赖
 RUN composer install --no-dev --optimize-autoloader
 
