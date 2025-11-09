@@ -32,7 +32,7 @@ services:
     ports:
       - "9000:9000"  # 暴露到主机 9000，避免冲突
     networks:
-      - docker_nsx-network
+      - nsx-network
     depends_on:
       db:
         condition: service_healthy
@@ -48,12 +48,12 @@ services:
     volumes:
       - /usr/local/nsx/www/wwwroot/mysql/:/var/lib/mysql  # 挂载主机数据库路径
     networks:
-      - docker_nsx-network
+      - nsx-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_DB_PASS"]
       timeout: 20s
       retries: 10
 
 networks:
-  docker_nsx-network:
-    external: true  # 使用现有外部网络（你的 Nginx 在此网络）
+  nsx-network:
+    driver: bridge
