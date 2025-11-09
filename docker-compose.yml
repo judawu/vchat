@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  php:
+    image: vchat-php  # 使用你构建的镜像（从 Dockerfile）
+    container_name: vchat-php
+    volumes:
+      - /usr/local/nsx/www/wwwroot/vchat/:/var/www/html  # 挂载主机代码路径
+    environment:
+      - DB_HOST=${MYSQL_DB_HOST}
+      - DB_USER=${MYSQL_DB_USER}
+      - DB_PASS=${MYSQL_DB_PASS}  # 从 .env 加载
+      - DB_NAME=${MYSQL_DB_NAME}
+      - WEIXIN_APPID=${WEIXIN_APPID}
+      - WEIXIN_SECRET=${WEIXIN_SECRET}
+      - WEIXIN_ENCODING_AES_KEY=${WEIXIN_ENCODING_AES_KEY}
+      - OPENWEATHER_APIKEY=${WEIXIN_ENCODING_AES_KEY}
+      - SPARK_APIKEY=${SPARK_APIKEY}
+      - BAIDU_APIKEY=${BAIDU_APIKEY}
+      - DOUBAO_APIKEY=${DOUBAO_APIKEY}
+      - KIMI_APIKEY=${KIMI_APIKEY}
+      - DEEPSEEK_APIKEY=${DEEPSEEK_APIKEY}
+      - HUNYUAN_APIKEY=${HUNYUAN_APIKEY}
+      - TONGYI_APIKEY=${TONGYI_APIKEY}
+      - YUEWEN_APIKEY=${YUEWEN_APIKEY}
+      - ZHIPU_APIKEY=${ZHIPU_APIKEY}
+      - HAILUO_APIKEY=${HAILUO_APIKEY}
+      - GORK_APIKEY=${GORK_APIKEY}
+      - OPENAI_APIKEY=${OPENAI_APIKEY}
+
+      # 添加其他 env（如 AI 密钥）
+    networks:
+      - nsx-network
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: vchat-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "3307:3306"  # 暴露到主机 3307，避免冲突
+    volumes:
+      - /usr/local/nsx/www/wwwroot/mysql/:/var/lib/mysql  # 挂载主机数据库路径
+    networks:
+      - nsx-network
+
+networks:
+  nsx-network:
+    external: true  # 使用现有外部网络（你的 Nginx 在此网络）
