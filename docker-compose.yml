@@ -1,7 +1,7 @@
-version: '3.8'
 
 services:
   php:
+    build: .  # Add this line to build from Dockerfile
     image: vchat-php  # 使用你构建的镜像（从 Dockerfile）
     container_name: vchat-php
     volumes:
