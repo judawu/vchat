@@ -24,7 +24,10 @@ RUN composer install --no-dev --optimize-autoloader
 
 # 权限调整（确保 www-data 用户可写日志等）
 RUN chown -R www-data:www-data /var/www/html
-
+# 创建 logs 目录并赋权给 www-data（对镜像内部有效）
+RUN mkdir -p /var/www/html/logs \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 750 /var/www/html/logs
 # ✅ 修改 PHP-FPM 监听地址为 0.0.0.0:9000
 RUN sed -i 's/^listen = .*/listen = 0.0.0.0:9000/' /usr/local/etc/php-fpm.d/www.conf
 # 暴露 PHP-FPM 端口
