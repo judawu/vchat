@@ -30,7 +30,7 @@ services:
 
       # 添加其他 env（如 AI 密钥）
     ports:
-      - "9000:9000"  # 暴露到主机 9000，避免冲突
+      - "9001:9000"  # 暴露到主机 9001，避免冲突
     networks:
       - nsx-network
     depends_on:
