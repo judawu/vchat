@@ -8,11 +8,7 @@
         "league/commonmark": "^2.6"
     },
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "JudaMonster\\MarkdownConverter\\": "src/"
-        }
-    },
+    "autoload": { },
     "authors": [
         {
             "name": "juda.monster"
