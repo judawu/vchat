@@ -8,7 +8,8 @@ return [
     'ENCODING_AES_KEY' => getenv('WEIXIN_ENCODING_AES_KEY') ?: '',
        // 其他配置项，如数据库连接信息
     'db' => [
-        'host' => getenv('MYSQL_DB_HOST') ?: 'localhost',
+        'host' => getenv('MYSQL_DB_HOST') ?: '127.0.0.1',
+        'port' => getenv('MYSQL_DB_PORT') ?: '3306',
         'dbname' => getenv('MYSQL_DB_USER') ?: 'wechat',
         'username' => getenv('MYSQL_DB_NAME') ?: 'root',
         'password' => getenv('MYSQL_DB_PASS') ?: '',
