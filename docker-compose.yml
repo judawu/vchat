@@ -48,7 +48,7 @@ services:
     networks:
       - docker_nsx-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$DB_PASS"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_DB_PASS"]
       timeout: 20s
       retries: 10
 
