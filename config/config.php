@@ -1,24 +1,24 @@
 <?php
 return [
-    'TOKEN' => 'weixin',
-    'APPID' => '',
-    'APPSECRET' =>  "",
-    'ENCODING_AES_KEY' => '',
+    'TOKEN' => getenv('WEIXIN_TOKEN') ?: 'weixin',
+    'APPID' => getenv('WEIXIN_APPID') ?: '',
+    'APPSECRET' =>  getenv('WEIXIN_APPSECRET') ?: '',
+    'ENCODING_AES_KEY' => getenv('WEIXIN_ENCODING_AES_KEY') ?: '',
        // 其他配置项，如数据库连接信息
     'db' => [
-        'host' => 'localhost',
-        'dbname' => 'wechat',
-        'username' => 'root',
-        'password' => '',
+        'host' => getenv('MYSQL_DB_HOST') ?: 'localhost',
+        'dbname' => getenv('MYSQL_DB_USER') ?: 'wechat',
+        'username' => getenv('MYSQL_DB_PASS') ?: 'root',
+        'password' => getenv('MYSQL_DB_NAME') ?: '',
     ],
     
-     'openweathermap' => '',
+     'openweathermap' => getenv('OPENWEATHER_APIKEY') ?: '',
     
     
  'ai_providers' => [
         'spark' => [
             'url' => 'https://spark-api-open.xf-yun.com/v1/chat/completions',
-            'apikey' => '',
+            'apikey' => getenv('SPARK_APIKEY') ?: '',
             'models' => [
                 'lite',
                 'generalv3',
