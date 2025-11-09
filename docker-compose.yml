@@ -6,6 +6,7 @@ services:
     container_name: vchat-php
     volumes:
       - /usr/local/nsx/www/wwwroot/vchat/:/var/www/html  # 挂载主机代码路径
+      entrypoint: ["/bin/sh", "-c", "mkdir -p /var/www/html/logs && chown -R www-data:www-data /var/www/html && php-fpm"]
     environment:
       - MYSQL_DB_HOST=${MYSQL_DB_HOST}
       - MYSQL_DB_USER=${MYSQL_DB_USER}
