@@ -42,4 +42,18 @@ services:
     container_name: vchat-db
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASS}
-      MYSQL_DATABASE: ${MYSQL_DB_NAM_
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+    ports:
+      - "3307:3306"
+    volumes:
+      - /usr/local/nsx/www/wwwroot/mysql/:/var/lib/mysql
+    networks:
+      - vchat-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_DB_PASS}"]
+      timeout: 20s
+      retries: 10
+
+networks:
+  vchat-network:
+    driver: bridge
