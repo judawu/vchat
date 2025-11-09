@@ -7,10 +7,10 @@ services:
     volumes:
       - /usr/local/nsx/www/wwwroot/vchat/:/var/www/html  # 挂载主机代码路径
     environment:
-      - DB_HOST=${MYSQL_DB_HOST}
-      - DB_USER=${MYSQL_DB_USER}
-      - DB_PASS=${MYSQL_DB_PASS}  # 从 .env 加载
-      - DB_NAME=${MYSQL_DB_NAME}
+      - MYSQL_DB_HOST=${MYSQL_DB_HOST}
+      - MYSQL_DB_USER=${MYSQL_DB_USER}
+      - MYSQL_DB_PASS=${MYSQL_DB_PASS}  # 从 .env 加载
+      - MYSQL_DB_NAME=${MYSQL_DB_NAME}
       - WEIXIN_APPID=${WEIXIN_APPID}
       - WEIXIN_SECRET=${WEIXIN_SECRET}
       - WEIXIN_ENCODING_AES_KEY=${WEIXIN_ENCODING_AES_KEY}
@@ -32,20 +32,25 @@ services:
     networks:
       - nsx-network
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: mysql:8.0
     container_name: vchat-db
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASS}
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASS}
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
     ports:
       - "3307:3306"  # 暴露到主机 3307，避免冲突
     volumes:
       - /usr/local/nsx/www/wwwroot/mysql/:/var/lib/mysql  # 挂载主机数据库路径
     networks:
       - nsx-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$DB_PASS"]
+      timeout: 20s
+      retries: 10
 
 networks:
   nsx-network:
