@@ -7,6 +7,8 @@ services:
     container_name: vchat-php
     entrypoint: ["/bin/sh", "-c", "mkdir -p /var/www/html/logs && chown -R www-data:www-data /var/www/html && php-fpm"]
     environment:
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
       MYSQL_DB_HOST: ${MYSQL_DB_HOST}
       MYSQL_DB_USER: ${MYSQL_DB_USER}
       MYSQL_DB_PASS: ${MYSQL_DB_PASS}
