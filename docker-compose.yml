@@ -25,7 +25,7 @@ services:
       - YUEWEN_APIKEY=${YUEWEN_APIKEY}
       - ZHIPU_APIKEY=${ZHIPU_APIKEY}
       - HAILUO_APIKEY=${HAILUO_APIKEY}
-      - GORK_APIKEY=${GORK_APIKEY}
+      - GROK_APIKEY=${GROK_APIKEY}
       - OPENAI_APIKEY=${OPENAI_APIKEY}
 
       # 添加其他 env（如 AI 密钥）
