@@ -1,10 +1,11 @@
 FROM php:8.4-fpm
 
-# 安装系统依赖和 PHP 扩展（针对 MySQL、zip 等项目可能需要）
+# 安装系统依赖和 PHP 扩展（针对 MySQL、PostgreSQL、zip 等项目可能需要）
 RUN apt-get update && apt-get install -y \
     libzip-dev \
+    libpq-dev \  # 添加 PostgreSQL 支持的系统依赖
     unzip \
-    && docker-php-ext-install pdo_mysql zip
+    && docker-php-ext-install pdo_mysql pdo_pgsql zip  # 添加 pdo_pgsql 扩展
 
 # 安装 Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
