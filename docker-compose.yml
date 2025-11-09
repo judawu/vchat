@@ -1,37 +1,36 @@
+version: "3.8"
 
 services:
   php:
-    build: .  # Add this line to build from Dockerfile
-    image: vchat-php  # 使用你构建的镜像（从 Dockerfile）
+    build: .                 # 从 Dockerfile 构建
+    image: vchat-php
     container_name: vchat-php
     volumes:
-      - /usr/local/nsx/www/wwwroot/vchat/:/var/www/html  # 挂载主机代码路径
-      entrypoint: ["/bin/sh", "-c", "mkdir -p /var/www/html/logs && chown -R www-data:www-data /var/www/html && php-fpm"]
+      - /usr/local/nsx/www/wwwroot/vchat/:/var/www/html
+    entrypoint: ["/bin/sh", "-c", "mkdir -p /var/www/html/logs && chown -R www-data:www-data /var/www/html && php-fpm"]
     environment:
-      - MYSQL_DB_HOST=${MYSQL_DB_HOST}
-      - MYSQL_DB_USER=${MYSQL_DB_USER}
-      - MYSQL_DB_PASS=${MYSQL_DB_PASS}  # 从 .env 加载
-      - MYSQL_DB_NAME=${MYSQL_DB_NAME}
-      - WEIXIN_APPID=${WEIXIN_APPID}
-      - WEIXIN_SECRET=${WEIXIN_SECRET}
-      - WEIXIN_ENCODING_AES_KEY=${WEIXIN_ENCODING_AES_KEY}
-      - OPENWEATHER_APIKEY=${OPENWEATHER_APIKEY}
-      - SPARK_APIKEY=${SPARK_APIKEY}
-      - BAIDU_APIKEY=${BAIDU_APIKEY}
-      - DOUBAO_APIKEY=${DOUBAO_APIKEY}
-      - KIMI_APIKEY=${KIMI_APIKEY}
-      - DEEPSEEK_APIKEY=${DEEPSEEK_APIKEY}
-      - HUNYUAN_APIKEY=${HUNYUAN_APIKEY}
-      - TONGYI_APIKEY=${TONGYI_APIKEY}
-      - YUEWEN_APIKEY=${YUEWEN_APIKEY}
-      - ZHIPU_APIKEY=${ZHIPU_APIKEY}
-      - HAILUO_APIKEY=${HAILUO_APIKEY}
-      - GROK_APIKEY=${GROK_APIKEY}
-      - OPENAI_APIKEY=${OPENAI_APIKEY}
-
-      # 添加其他 env（如 AI 密钥）
+      MYSQL_DB_HOST: ${MYSQL_DB_HOST}
+      MYSQL_DB_USER: ${MYSQL_DB_USER}
+      MYSQL_DB_PASS: ${MYSQL_DB_PASS}
+      MYSQL_DB_NAME: ${MYSQL_DB_NAME}
+      WEIXIN_APPID: ${WEIXIN_APPID}
+      WEIXIN_SECRET: ${WEIXIN_SECRET}
+      WEIXIN_ENCODING_AES_KEY: ${WEIXIN_ENCODING_AES_KEY}
+      OPENWEATHER_APIKEY: ${OPENWEATHER_APIKEY}
+      SPARK_APIKEY: ${SPARK_APIKEY}
+      BAIDU_APIKEY: ${BAIDU_APIKEY}
+      DOUBAO_APIKEY: ${DOUBAO_APIKEY}
+      KIMI_APIKEY: ${KIMI_APIKEY}
+      DEEPSEEK_APIKEY: ${DEEPSEEK_APIKEY}
+      HUNYUAN_APIKEY: ${HUNYUAN_APIKEY}
+      TONGYI_APIKEY: ${TONGYI_APIKEY}
+      YUEWEN_APIKEY: ${YUEWEN_APIKEY}
+      ZHIPU_APIKEY: ${ZHIPU_APIKEY}
+      HAILUO_APIKEY: ${HAILUO_APIKEY}
+      GROK_APIKEY: ${GROK_APIKEY}
+      OPENAI_APIKEY: ${OPENAI_APIKEY}
     ports:
-      - "9001:9000"  # 暴露到主机 9001，避免冲突,nginx可以直接发送到主机 9001
+      - "9001:9000"
     networks:
       - vchat-network
     depends_on:
@@ -43,18 +42,4 @@ services:
     container_name: vchat-db
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASS}
-      MYSQL_DATABASE: ${MYSQL_DB_NAME}
-    ports:
-      - "3307:3306"  # 暴露到主机 3307，避免冲突
-    volumes:
-      - /usr/local/nsx/www/wwwroot/mysql/:/var/lib/mysql  # 挂载主机数据库路径
-    networks:
-      - vchat-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_DB_PASS"]
-      timeout: 20s
-      retries: 10
-
-networks:
-  vchat-network:
-    driver: bridge
+      MYSQL_DATABASE: ${MYSQL_DB_NAM_
