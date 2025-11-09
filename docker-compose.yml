@@ -30,7 +30,7 @@ services:
 
       # 添加其他 env（如 AI 密钥）
     networks:
-      - nsx-network
+      - docker_nsx-network
     depends_on:
       db:
         condition: service_healthy
@@ -46,12 +46,12 @@ services:
     volumes:
       - /usr/local/nsx/www/wwwroot/mysql/:/var/lib/mysql  # 挂载主机数据库路径
     networks:
-      - nsx-network
+      - docker_nsx-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$DB_PASS"]
       timeout: 20s
       retries: 10
 
 networks:
-  nsx-network:
+  docker_nsx-network:
     external: true  # 使用现有外部网络（你的 Nginx 在此网络）
