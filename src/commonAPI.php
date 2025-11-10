@@ -154,7 +154,6 @@ function getClientIp() {
     }
     elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         // 检查是否通过代理服务器访问
-       if
         return $_SERVER['HTTP_CLIENT_IP'];
     }
     elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
