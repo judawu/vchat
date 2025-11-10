@@ -246,7 +246,7 @@ class WechatMsgCrypt
 	{
 
        // 新增：校验replyMsg是否是有效XML（防止回包失败）
-	    libxml_disable_entity_loader(true);
+	 
 	    $xml = @simplexml_load_string($replyMsg, 'SimpleXMLElement', LIBXML_NOCDATA);
 	    if (!$xml) {
 	        $this->logger->error("encryptMsg: replyMsg不是有效XML格式，微信解析将失败。replyMsg: $replyMsg");
