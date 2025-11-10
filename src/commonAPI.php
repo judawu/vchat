@@ -148,14 +148,14 @@ function rapid_AIchat($userprompt) {
 }
 
 function getClientIp() {
-    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+        // 检查是否通过proxy转发
+        return $_SERVER['HTTP_X_REAL_IP'];
+    }
+     elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         // 检查是否通过 X-Forwarded-For 头部
         $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
         return $ipList[0];
-    }
-    elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-        // 检查是否通过proxy转发
-        return $_SERVER['HTTP_X_REAL_IP'];
     }
     elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         // 检查是否通过代理服务器访问
