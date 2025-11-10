@@ -211,7 +211,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $isJson ? json_encode(['error' => $e->getMessage()]) : "<error>".$e->getMessage()."</error>";
         exit;
                               }                    
-    
 
     
      } else {
@@ -220,9 +219,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Method Not Allowed";
     exit;
        }
-
-
-
 
 
 ?>
