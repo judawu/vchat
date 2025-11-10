@@ -1,6 +1,9 @@
 <?php
 // wechat.php
 
+// 立即开启输出缓冲，避免任意输出直接发送到客户端
+ob_start();
+
 // 引入必要的类
 require_once 'src/db.php';
 require_once 'src/wechatMsgCrypt.php';
@@ -90,7 +93,14 @@ if ($signature && $timestamp && $nonce && $echostr) {
         // 明文或兼容模式：原有valid方法
         if ($wechatMsgCrypt->valid($signature, $timestamp, $nonce)) {
             $logger->info("明文模式URL验证成功，回显echostr:$echostr");
-            echo trim($echostr);
+            // 在输出前清空输出缓冲区（移除其它文件或 logger 意外输出）
+            if (ob_get_length() > 0) {
+                ob_clean();
+            }
+             // 最终输出并结束脚本,防止出现echostr =“ 1581427064928059087”的情况，正常输出前面没有空格
+            header('Content-Type: text/plain; charset=utf-8');
+            echo $echostr;
+            ob_end_flush();
             exit;
         } else {
             $logger->error("明文模式URL验证失败: signature=$signature, timestamp=$timestamp, nonce=$nonce");
