@@ -71,7 +71,7 @@ class WechatMsgCrypt
     public function valid($signature, $timestamp, $nonce)
     {
         $tmpArr = array($this->token, $timestamp, $nonce);
-        sort($tmpArr);
+        sort($tmpArr, SORT_STRING);
         $tmpStr = sha1(implode($tmpArr));
 
         if ($tmpStr === $signature) {
