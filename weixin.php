@@ -89,8 +89,8 @@ if ($signature && $timestamp && $nonce && $echostr) {
     } else {
         // 明文或兼容模式：原有valid方法
         if ($wechatMsgCrypt->valid($signature, $timestamp, $nonce)) {
-            $logger->info("明文模式URL验证成功，回显echostr: $echostr");
-            echo $echostr;
+            $logger->info("明文模式URL验证成功，回显echostr:$echostr");
+            echo trim($echostr);
             exit;
         } else {
             $logger->error("明文模式URL验证失败: signature=$signature, timestamp=$timestamp, nonce=$nonce");
