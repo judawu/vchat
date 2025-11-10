@@ -71,20 +71,36 @@ if (!saveIP($db, $savetime,$ip, $iplocation, $full_url)) {
 
 
 
-
-
-// 验证URL
+/ 验证URL（修改部分：支持安全模式aes）
 if ($signature && $timestamp && $nonce && $echostr) {
-    if ($wechatMsgCrypt->valid($signature, $timestamp, $nonce)) {
-        echo $echostr;
-        exit;
+    if ($encryptType === 'aes') {
+        // 安全模式：使用verifyUrl进行签名验证和echostr解密
+        $decryptedEcho = $wechatMsgCrypt->verifyUrl($msg_signature, $timestamp, $nonce, $echostr);
+        if ($decryptedEcho !== false) {
+            $logger->info("安全模式URL验证成功，回显解密echostr: $decryptedEcho");
+            echo $decryptedEcho;
+            exit;
+        } else {
+            $logger->error("安全模式URL验证失败: msg_signature=$msg_signature, timestamp=$timestamp, nonce=$nonce, echostr=$echostr");
+            http_response_code(403);
+            echo "Forbidden";
+            exit;
+        }
     } else {
-        $logger->error("URL验证失败: signature=$signature, timestamp=$timestamp, nonce=$nonce");
-        http_response_code(403);
-        echo "Forbidden";
-        exit;
+        // 明文或兼容模式：原有valid方法
+        if ($wechatMsgCrypt->valid($signature, $timestamp, $nonce)) {
+            $logger->info("明文模式URL验证成功，回显echostr: $echostr");
+            echo $echostr;
+            exit;
+        } else {
+            $logger->error("明文模式URL验证失败: signature=$signature, timestamp=$timestamp, nonce=$nonce");
+            http_response_code(403);
+            echo "Forbidden";
+            exit;
+        }
     }
 }
+
 
 // 处理微信服务器发送的消息
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -134,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $rawData,
                 $decryptMsg,
                 $timestamp,
-                $XmlOrJson // 新增格式参数[1,7](@ref)
+                $XmlOrJson 
             );
 
             if ($errCode !== 0) {
@@ -174,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $timestamp,
                 $nonce,
                 $encryptMsg,
-                $XmlOrJson // 新增格式参数[1,7](@ref)
+                $XmlOrJson 
             );
             
             if ($errCode !== 0) {
