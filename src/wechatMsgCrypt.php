@@ -68,14 +68,14 @@ class WechatMsgCrypt
      * @param string $nonce 随机数
      * @return bool
      */
-    public function valid($signature, $timestamp, $nonce)
+    public function valid($signature,$timestamp,$nonce)
     {
-        $tmpArr = array($this->token, $timestamp, $nonce);
-        sort($tmpArr, SORT_STRING);
+        $tmpArr = array($this->token,$timestamp,$nonce);
+        sort($tmpArr,SORT_STRING);
         $tmpStr = sha1(implode($tmpArr));
 
         if ($tmpStr === $signature) {
-          //  $this->logger->info("签名验证成功,可以通讯：$signature");
+          //  $this->logger->info("签名验证成功,可以通讯:$signature");
             return true;
              
         } else {
@@ -564,7 +564,7 @@ class wxMsgCrypt
     {
         try {
             $array = array($encrypt_msg, $token, $timestamp, $nonce);
-            sort($array, SORT_STRING);
+            sort($array,SORT_STRING);
             $str = implode($array);
             return array(ErrorCode::$OK, sha1($str));
         } catch (Exception $e) {
