@@ -55,6 +55,8 @@ else
     rm -rf vchat
     echo "执行: rm -rf mysql"
     rm -rf mysql
+    echo " 克隆或更新 vchat,拉取 git clone $REPO"
+    git clone "$REPO"
   fi
 fi
 
