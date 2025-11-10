@@ -7,41 +7,90 @@ class Access {
     private $leftTime = 0;
     private $tokenFile = __DIR__ . '/access_token.json';
 
-    private function realGetAccessToken() {
-        $config = require __DIR__ . '/../config/config.php';
+private function realGetAccessToken() {
+        // 加载配置（注意路径是否正确）
+        $configFile = __DIR__ . '/../config/config.php';
+        if (!file_exists($configFile)) {
+            throw new Exception("Config file missing: {$configFile}");
+        }
+        $config = require $configFile;
+        if (empty($config['APPID']) || empty($config['APPSECRET'])) {
+            throw new Exception("APPID or APPSECRET not set in config");
+        }
         $appId = $config['APPID'];
         $appSecret = $config['APPSECRET'];
-        $postUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appId}&secret={$appSecret}";
-        
-        $urlResp = file_get_contents($postUrl);
-        if ($urlResp === false) {
-            throw new Exception("Failed to fetch access token");
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . urlencode($appId) . "&secret=" . urlencode($appSecret);
+
+        // 使用 curl 获取（更可靠并便于超时/错误处理）
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 10,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_SSL_VERIFYPEER => true,
+        ]);
+        $resp = curl_exec($ch);
+        if ($resp === false) {
+            $err = curl_error($ch);
+            curl_close($ch);
+            throw new Exception("Failed to fetch access token via curl: {$err}");
         }
-        $data = json_decode($urlResp, true);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode !== 200) {
+            throw new Exception("Token API returned HTTP code {$httpCode}");
+        }
+
+        // JSON 解码并检查错误
+        $data = json_decode($resp, true);
+        if ($data === null) {
+            $jsonErr = json_last_error_msg();
+            // 记录原始响应会有帮助
+            throw new Exception("Failed to decode JSON response: {$jsonErr}. Raw response: " . substr($resp, 0, 1000));
+        }
+
+        // 检查微信返回的错误字段
+        if (isset($data['errcode']) && $data['errcode'] != 0) {
+            throw new Exception("Weixin API error: errcode={$data['errcode']} errmsg={$data['errmsg']}");
+        }
+
         if (!isset($data['access_token'])) {
-            throw new Exception("Invalid response from token API");
+            throw new Exception("Invalid response from token API: missing access_token. Raw: " . substr($resp, 0, 1000));
         }
-        
+
         $this->accessToken = $data['access_token'];
-        $this->leftTime = $data['expires_in'];
-        file_put_contents($this->tokenFile, json_encode(['token' => $this->accessToken, 'expires' => time() + $this->leftTime]));
+        $this->leftTime = isset($data['expires_in']) ? intval($data['expires_in']) : 7200;
+
+        // 写入 token 文件（注意权限）
+        $toWrite = json_encode(['token' => $this->accessToken, 'expires' => time() + $this->leftTime]);
+        if (@file_put_contents($this->tokenFile, $toWrite) === false) {
+            // 不是致命错误，但记录说明
+            error_log("Warning: failed to write token to {$this->tokenFile}");
+        }
     }
 
     public function getLeftTime() {
         return $this->leftTime;
     }
 
-    public function getAccessToken() {
+   public function getAccessToken() {
+        
         if (file_exists($this->tokenFile)) {
-            $data = json_decode(file_get_contents($this->tokenFile), true);
-            if ($data && time() < $data['expires']) {
-                $this->accessToken = $data['token'];
-                $this->leftTime = $data['expires'] - time();
+            $json = @file_get_contents($this->tokenFile);
+            if ($json !== false) {
+                $arr = json_decode($json, true);
+                if (is_array($arr) && isset($arr['token']) && isset($arr['expires'])) {
+                    if ($arr['expires'] > time() + 60) { 
+                        $this->accessToken = $arr['token'];
+                        return $this->accessToken;
+                    }
+                }
             }
         }
-        if ($this->leftTime < 10) {
-            $this->realGetAccessToken();
-        }
+
+        $this->realGetAccessToken();
         return $this->accessToken;
     }
       public function getStabletoken($force_refresh = false) {
