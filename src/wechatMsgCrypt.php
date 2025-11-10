@@ -61,7 +61,7 @@ class WechatMsgCrypt
     }
 
     /**
-     * 验证微信服务器
+     * 验证微信服务器 （明文模式或兼容模式）
      *
      * @param string $signature 微信加密签名
      * @param string $timestamp 时间戳
@@ -85,7 +85,42 @@ class WechatMsgCrypt
         }
     }
 
+/**
+     * 新修改2025-11-10
+	 * 验证微信服务器（安全模式，encrypt_type=aes）
+     * 用于初次接入验证，返回解密的echostr
+     *
+     * @param string $msgSignature 消息签名
+     * @param string $timestamp 时间戳
+     * @param string $nonce 随机数
+     * @param string $echostr 加密的echostr
+     * @return string|bool 解密的echostr或false
+     */
+    public function verifyUrl($msgSignature, $timestamp, $nonce, $echostr)
+    {
+        $pc = new wxMsgCrypt();
 
+        // 验证签名
+        $array = $pc->getSHA1($this->token, $timestamp, $nonce, $echostr);
+        $ret = $array[0];
+        if ($ret != 0) {
+            $this->logger->error("verifyUrl ComputeSignatureError: $ret");
+            return false;
+        }
+        $signature = $array[1];
+        if ($signature != $msgSignature) {
+            $this->logger->error("verifyUrl ValidateSignatureError: computed $signature != $msgSignature");
+            return false;
+        }
+
+        // 解密echostr
+        $result = $pc->decrypt($this->encodingAESKey, $echostr, $this->appId, $this->logger);
+        if ($result[0] != 0) {
+            $this->logger->error("verifyUrl decrypt ERROR: $result[0]");
+            return false;
+        }
+        return $result[1]; // 返回解密的明文echostr
+    }
 /**
 	 * 提取出xml数据包中的加密消息
 	 * @param string $xmltext 待提取的xml字符串
@@ -191,24 +226,33 @@ class WechatMsgCrypt
     }
 	
 	
-	/**
-	 * 将公众平台回复用户的消息加密打包.
-	 * <ol>
-	 *    <li>对要发送的消息进行AES-CBC加密</li>
-	 *    <li>生成安全签名</li>
-	 *    <li>将消息密文和安全签名打包成xml格式</li>
-	 * </ol>
-	 *
-	 * @param $replyMsg string 公众平台待回复用户的消息，xml格式的字符串
-	 * @param $timeStamp string 时间戳，可以自己生成，也可以用URL参数的timestamp
-	 * @param $nonce string 随机串，可以自己生成，也可以用URL参数的nonce
-	 * @param &$encryptMsg string 加密后的可以直接回复用户的密文，包括msg_signature, timestamp, nonce, encrypt的xml格式的字符串,
-	 *                      当return返回0时有效
-	 *
-	 * @return int 成功0，失败返回对应的错误码
-	 */
+/**
+ * 将公众平台回复用户的消息加密打包.
+ * <ol>
+ * <li>对要发送的消息进行AES-CBC加密</li>
+ * <li>生成安全签名</li>
+ * <li>将消息密文和安全签名打包成xml格式</li>
+ * </ol>
+ *
+ * @param $replyMsg string 公众平台待回复用户的消息，xml格式的字符串（必须是有效XML，否则微信解析失败）
+ * @param $timeStamp string 时间戳，可以自己生成，也可以用URL参数的timestamp（官方建议回填原请求的timestamp）
+ * @param $nonce string 随机串，可以自己生成，也可以用URL参数的nonce（官方建议回填原请求的nonce）
+ * @param &$encryptMsg string 加密后的可以直接回复用户的密文，包括msg_signature, timestamp, nonce, encrypt的xml格式的字符串,
+ * 当return返回0时有效
+ *
+ * @return int 成功0，失败返回对应的错误码
+ */
 	public function encryptMsg($replyMsg, $timeStamp, $nonce, &$encryptMsg, $XmlOrJson = false)
 	{
+
+       // 新增：校验replyMsg是否是有效XML（防止回包失败）
+	    libxml_disable_entity_loader(true);
+	    $xml = @simplexml_load_string($replyMsg, 'SimpleXMLElement', LIBXML_NOCDATA);
+	    if (!$xml) {
+	        $this->logger->error("encryptMsg: replyMsg不是有效XML格式，微信解析将失败。replyMsg: $replyMsg");
+	        return ErrorCode::$ParseXmlError; // 或自定义错误码
+	    }
+			
 		$pc = new wxMsgCrypt();
 
 		//加密
@@ -222,6 +266,11 @@ class WechatMsgCrypt
 
 		if ($timeStamp == null) {
 			$timeStamp = time();
+			$this->logger->warning("encryptMsg: 未传timeStamp，使用新生成值，但官方建议回填原请求的timestamp以避免回包验证失败");
+		}
+		if ($nonce == null) {
+		    $nonce = $this->getRandomStr(12); // 新增类方法getRandomStr
+		    $this->logger->warning("encryptMsg: 未传nonce，使用新生成值，但官方建议回填原请求的nonce以避免回包验证失败");
 		}
 		$encrypt = $array[1];
 
@@ -235,9 +284,8 @@ class WechatMsgCrypt
 		}
 		$signature = $array[1];
 
-		//生成发送的xml
+		//生成发送的xml或者Json
 	    
-	          // 修改生成逻辑
         if ($XmlOrJson === true) {
             $encryptMsg = $this->JSONEncryptgenerate($encrypt, $signature, $timeStamp, $nonce);
         } else {
@@ -346,7 +394,7 @@ class wxMsgCrypt
     public function encrypt($key, $text, $appid, $logger)
     {
         
-        //https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Message_encryption_and_decryption_instructions.html
+        //参考 https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Message_encryption_and_decryption_instructions.html
         try {
             // 获得16位随机字符串，填充到明文之前
             $random = $this->getRandomStr();
@@ -499,12 +547,12 @@ class wxMsgCrypt
      * 随机生成16位字符串
      * @return string 生成的字符串
      */
-    function getRandomStr()
+    function getRandomStr($length = 16)  // 修改为类方法，支持nonce的12位
     {
         $str_pol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         $max = strlen($str_pol) - 1;
         $str = "";
-        for ($i = 0; $i < 16; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $str .= $str_pol[mt_rand(0, $max)];
         }
         return $str;
