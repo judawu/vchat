@@ -71,7 +71,7 @@ if (!saveIP($db, $savetime,$ip, $iplocation, $full_url)) {
 
 
 
-/ 验证URL（修改部分：支持安全模式aes）
+// 验证URL（修改部分：支持安全模式aes）
 if ($signature && $timestamp && $nonce && $echostr) {
     if ($encryptType === 'aes') {
         // 安全模式：使用verifyUrl进行签名验证和echostr解密
