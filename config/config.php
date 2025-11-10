@@ -4,7 +4,7 @@ return [
     'PASSWORD' => getenv('PASSWORD') ?: '12345678',
     'TOKEN' => getenv('WEIXIN_TOKEN') ?: 'weixin',
     'APPID' => getenv('WEIXIN_APPID') ?: '',
-    'APPSECRET' =>  getenv('WEIXIN_APPSECRET') ?: '',
+    'APPSECRET' =>  getenv('WEIXIN_SECRET') ?: '',
     'ENCODING_AES_KEY' => getenv('WEIXIN_ENCODING_AES_KEY') ?: '',
        // 其他配置项，如数据库连接信息
     'db' => [
