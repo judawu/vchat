@@ -8,15 +8,8 @@ class Access {
     private $tokenFile = __DIR__ . '/access_token.json';
 
 private function realGetAccessToken() {
-        // 加载配置（注意路径是否正确）
-        $configFile = __DIR__ . '/../config/config.php';
-        if (!file_exists($configFile)) {
-            throw new Exception("Config file missing: {$configFile}");
-        }
-        $config = require $configFile;
-        if (empty($config['APPID']) || empty($config['APPSECRET'])) {
-            throw new Exception("APPID or APPSECRET not set in config");
-        }
+  
+        $config = require __DIR__ . '/../config/config.php';
         $appId = $config['APPID'];
         $appSecret = $config['APPSECRET'];
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . urlencode($appId) . "&secret=" . urlencode($appSecret);
