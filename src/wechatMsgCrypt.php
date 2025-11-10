@@ -245,13 +245,7 @@ class WechatMsgCrypt
 	public function encryptMsg($replyMsg, $timeStamp, $nonce, &$encryptMsg, $XmlOrJson = false)
 	{
 
-       // 新增：校验replyMsg是否是有效XML（防止回包失败）
-	 
-	    $xml = @simplexml_load_string($replyMsg, 'SimpleXMLElement', LIBXML_NOCDATA);
-	    if (!$xml) {
-	        $this->logger->error("encryptMsg: replyMsg不是有效XML格式，微信解析将失败。replyMsg: $replyMsg");
-	        return ErrorCode::$ParseXmlError; // 或自定义错误码
-	    }
+   
 			
 		$pc = new wxMsgCrypt();
 
