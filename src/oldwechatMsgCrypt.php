@@ -530,3 +530,4 @@ class wxMsgCrypt
         }
     }
 }
+?>
