@@ -1,4 +1,5 @@
 <?php
+ob_start(); // 开启输出缓冲
 session_start();  // 启动 session，存储用户登录状态
 $config = require 'config/config.php';
 
