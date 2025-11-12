@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($username === $config['USERNAME'] && $password === $config['PASSWORD']) {
         // 登录成功，设置 session 标记
         $_SESSION['loggedin'] = true;
+        ob_end_clean();        // ← 清空缓冲区（防止前面有 BOM/空格）
         header('Location: Databasedashboard.php'); // 重定向到成功后的页面（后续会创建）
         exit();
     } else {
