@@ -81,10 +81,10 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
 ###  一键脚本docker部署 
 
   1. 首先下载build.sh后运行bash build.sh执行一键docker 部署（部署不包括nginx，nginx需要单独安装）
-     '''
+     ```bash
      git clone https://github.com/judawu/vchat.git
      bash build.sh
-     '''
+     ```
   3.  修改nginx，参考网站的nginx。conf进行nginx服务器的设置并重启
 
 ## 补充内容：aaPanel 宝塔面板命令行
