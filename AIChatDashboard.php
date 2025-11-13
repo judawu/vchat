@@ -1,5 +1,6 @@
 <?php
 // AIChatDashboard.php
+ob_start();
 require_once 'src/commonAPI.php';
 require_once 'src/logger.php';
 require_once 'src/db.php';
@@ -66,7 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
         // 处理流式响应的情况
         if ($stream) {
+            if (ob_get_length() > 0) {
+                ob_clean();
+            }
             echo $response;
+            ob_end_flush();
         } else {
             $responseData = json_decode($response, true);
            
@@ -125,11 +130,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                   // 输出最终响应
                     $logger->info("Final response: " . substr($finalResponse, 0, 500));
+                    if (ob_get_length() > 0) {
+                        ob_clean();
+                    }
                     echo $finalResponse;
+                    ob_end_flush();
                 }
             } else {
               //  $logger->info("No tool calls, returning original response");
+                if (ob_get_length() > 0) {
+                ob_clean();
+                }
                 echo $response;
+                ob_end_flush();
             }
         }
         exit;
