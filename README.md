@@ -85,7 +85,7 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
      git clone https://github.com/judawu/vchat.git
      bash build.sh
      ```
-  3.  修改nginx，参考网站的nginx。conf进行nginx服务器的设置并重启
+  3.  修改nginx，参考网站的nginx.conf进行nginx服务器的设置并重启
 
 ## 补充内容：aaPanel 宝塔面板命令行
 
