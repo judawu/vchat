@@ -86,7 +86,134 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
      bash build.sh
      ```
   3.  修改nginx，参考网站的nginx.conf进行nginx服务器的设置并重启
+    ```
+     stream {
+       map $ssl_preread_server_name $layer4jail {
+     
+        vchat.youdomain       unix:/dev/shm/nsx/vchat.sock;
+        }
 
+    upstream php-upstream {
+        server vchat-php:9000;
+    }
+    server {
+        listen 443 reuseport; 
+        ssl_preread on; 
+        proxy_pass $layer4jail;
+        proxy_protocol pn;
+    
+    }
+
+}
+http {
+  server
+   {
+    listen 80;
+    server_name vchat.youdomain ;  #换成你的域名
+    index index.php ;
+    root /var/www/html/;  # 如果 Nginx 挂载了项目代码
+
+   # Forbidden files or directories
+    location ~ ^/(\.user.ini|\.htaccess|\.git|\.env|\.svn|\.project|LICENSE|README.md)
+    {
+        return 404;
+    }
+
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+    {
+        expires      30d;
+        error_log /dev/null;
+        access_log /dev/null;
+    }
+    location ~ /config/.*\.php$ {
+    deny all;
+    }
+
+     # 禁止直接访问 src 目录
+    location ^~ /src/ {
+        deny all;
+        return 403;
+    }
+    
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+     }
+
+       location ~ \.php$ {
+        fastcgi_pass php-upstream;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+ }
+
+
+server
+   {
+    listen unix:/dev/shm/nsx/vchat.sock ssl  proxy_protocol;
+    server_name vchat.yourdomain;  #换成你的域名
+    index index.php;
+    root /var/www/html/;
+    ssl_certificate     /certlocation/vchat.yourdomain.pem;
+    ssl_certificate_key /certlocation/vchat.yourdomain.key;
+    ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    add_header Strict-Transport-Security "max-age=31536000";
+    set_real_ip_from unix:;      # 或外层代理的真实 IP
+    real_ip_header proxy_protocol;
+    real_ip_recursive on;
+
+    access_log /var/log/vchat_access.log;
+    error_log /var/log/vchat_stream_error.log debug;
+
+
+
+    # Forbidden files or directories
+    location ~ ^/(\.user.ini|\.htaccess|\.git|\.env|\.svn|\.project|LICENSE|README.md)
+    {
+        return 404;
+    }
+
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+    {
+        expires      30d;
+        error_log /dev/null;
+        access_log /dev/null;
+    }
+    location ~ /config/.*\.php$ {
+    deny all;
+    }
+
+     # 禁止直接访问 src 目录
+    location ^~ /src/ {
+        deny all;
+        return 403;
+    }
+    
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+     }
+
+       location ~ \.php$ {
+        fastcgi_pass yourIP:9001;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        # 将客户端 IP 传给 PHP（确保 $_SERVER['REMOTE_ADDR'] = 客户端 IP）
+       fastcgi_param  REMOTE_ADDR          $proxy_protocol_addr;
+       # 也把常见的代理头传给后端（PHP 中对应为 $_SERVER['HTTP_X_FORWARDED_FOR'] / $_SERVER['HTTP_X_REAL_IP']）
+       fastcgi_param  HTTP_X_FORWARDED_FOR  $proxy_add_x_forwarded_for;
+      fastcgi_param  HTTP_X_REAL_IP         $remote_addr;  #或者$proxy_protocol_addr;
+
+       include fastcgi_params;
+    }
+ }
+
+  
+}
+    ```
 ## 补充内容：aaPanel 宝塔面板命令行
 
 ### Management/面板管理
