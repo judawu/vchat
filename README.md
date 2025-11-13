@@ -58,7 +58,7 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
 本指南将引导您在 Linux VPS 或云托管主机上部署 vchat 应用程序。
 
 ## 部署步骤
-
+###  手动部署
 1.  **购买 VPS 或云托管主机 (Linux)**
 2.  **购买您的域名，并在 Cloudflare 上将域名指向您的 VPS 的 IP 地址。**
 3.  **安装宝塔面板英文版 (aaPanel)。**
@@ -77,6 +77,12 @@ config只包括了一个config.php,用于进行AI API的桥接，和数据库访
 9.  **将您的网站文件拷贝到网站的根目录。**
     ![建站演示](https://github.com/judawu/vchat/blob/main/png/aaPanel6.PNG)
 10.  **在命令行中进入网站根目录，执行 `composer install` 进行依赖部署。**
+
+###  一键脚本docker部署 
+
+  1. 首先下载build.sh后运行bash build.sh执行一键docker 部署（部署不包括nginx，nginx需要单独安装）
+     ![一键部署](https://github.com/judawu/vchat/blob/main/png/aaPanel6.PNG)
+  2.  修改nginx，参考网站的nginx。conf进行nginx服务器的设置并重启
 
 ## 补充内容：aaPanel 宝塔面板命令行
 
