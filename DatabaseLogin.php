@@ -1,4 +1,6 @@
 <?php
+// 强制关闭 php://input，彻底避免这个坑（许多生产环境都这么做）
+@fclose(fopen('php://input', 'r'));
 ob_start(); // 开启输出缓冲
 session_start();  // 启动 session，存储用户登录状态
 $config = require 'config/config.php';
